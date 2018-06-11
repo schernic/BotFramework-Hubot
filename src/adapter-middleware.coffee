@@ -29,9 +29,9 @@ class TextMiddleware extends BaseMiddleware
 
         if activity.type == 'message'
             return new TextMessage(user, activity.text, activity.sourceEvent?.clientActivityId || '')
-        
+
         return new Message(user)
-    
+
     toSendable: (context, message) ->
         @robot.logger.info "#{LogPrefix} TextMiddleware toSendable"
         if typeof message is 'string'
@@ -39,8 +39,9 @@ class TextMiddleware extends BaseMiddleware
                 type: 'message'
                 text: message
                 address: context.user.activity.address
+                textFormat: 'plain'
             }
-        
+
         return message
 
 Middleware = {
@@ -50,7 +51,7 @@ Middleware = {
 module.exports = {
     registerMiddleware: (name, middleware) ->
         Middleware[name] = middleware
-    
+
     middlewareFor: (name) ->
         Middleware[name] || Middleware['*']
 
